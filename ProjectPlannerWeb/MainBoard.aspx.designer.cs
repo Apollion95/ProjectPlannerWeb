@@ -42,6 +42,15 @@ namespace ProjectPlannerWeb
         protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
+        /// UserIdDropDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList UserIdDropDown;
+
+        /// <summary>
         /// LoginAdmin control.
         /// </summary>
         /// <remarks>
@@ -94,6 +103,24 @@ namespace ProjectPlannerWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Submit;
+
+        /// <summary>
+        /// Refresh control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Refresh;
+
+        /// <summary>
+        /// test control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label test;
 
         /// <summary>
         /// GridView2 control.
