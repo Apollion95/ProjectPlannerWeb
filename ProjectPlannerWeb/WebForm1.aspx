@@ -5,20 +5,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Project Scheduler</title>
-    <style>
+    <style >
         body {
             background-color: ghostwhite;
         }
-
-        #form1 {
-            width: 1034px;
-            height: 437px;
-        }
     </style>
 </head>
-<body style="height: 600px; width: 800px;">
+<body style="top: 24px;width: 800px; height: 100%;">
     <form id="form1" runat="server">
         <h2>Welcome to Project Scheduler Site</h2>
+        <panel>
+
+        </panel>
         <table>
             <h3> Sign in</h3>
             <asp:TextBox ID="Login2" runat="server" OnTextChanged="Login_TextChanged" placeholder="Login"></asp:TextBox>
