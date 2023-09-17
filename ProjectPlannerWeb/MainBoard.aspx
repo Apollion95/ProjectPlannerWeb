@@ -15,7 +15,7 @@
             </p>
 
         </div>
-        <asp:panel runat="server" ID="AdminPanel" Visible="false">
+        <asp:Panel runat="server" ID="AdminPanel" Visible="false">
             <h3>Admin Panel</h3>
             <br />
             <div>
@@ -38,14 +38,14 @@
                         <asp:CommandField ButtonType="Button" ShowEditButton="True" />
                         <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                         <asp:BoundField DataField="UserID" HeaderText="UserID" ReadOnly="True" />
-                        <asp:BoundField DataField="login" HeaderText="Login" />
-                        <asp:BoundField DataField="password" HeaderText="Password" />
-                        <asp:BoundField DataField="email" HeaderText="Email" />
-                        <asp:BoundField DataField="description" HeaderText="Description" />
+                        <asp:BoundField DataField="Login" HeaderText="Login" />
+                        <asp:BoundField DataField="Password" HeaderText="Password" />
+                        <asp:BoundField DataField="Email" HeaderText="Email" />
+                        <asp:BoundField DataField="Description" HeaderText="Description" />
                     </Columns>
                 </asp:GridView>
             </div>
-        </asp:panel>
+        </asp:Panel>
     </form>
 </body>
 </html>

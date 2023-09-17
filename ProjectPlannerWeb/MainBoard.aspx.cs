@@ -159,11 +159,15 @@ namespace ProjectPlannerWeb
         protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             //problem with editing to be fixed later
+
+            GridViewRow row = GridView2.Rows[e.RowIndex];
             int userID = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value.ToString());
-            string login = ((TextBox)GridView2.Rows[e.RowIndex].Cells[1].FindControl("Login")).Text;
-            string password = ((TextBox)GridView2.Rows[e.RowIndex].Cells[2].FindControl("Password")).Text;
-            string email = ((TextBox)GridView2.Rows[e.RowIndex].Cells[3].FindControl("Email")).Text;
-            string description = ((TextBox)GridView2.Rows[e.RowIndex].Cells[4].FindControl("Description")).Text;
+        
+            string login = ((TextBox)row.FindControl("Login")).Text;
+            string password = ((TextBox)row.FindControl("Password")).Text;
+            string email = ((TextBox)row.FindControl("Email")).Text;
+            string description = ((TextBox)row.FindControl("Description")).Text;
+
 
             using (SqlConnection sqlCon = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=ProjectPlannerWeb;Integrated Security=True"))
             {
