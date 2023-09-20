@@ -11,7 +11,6 @@ namespace ProjectPlannerWeb
 {
     public partial class MainBoard : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             using (SqlConnection sqlCon = new SqlConnection(@"Data Source =.\SQLEXPRESS; Initial Catalog = ProjectPlannerWeb; Integrated Security = True"))
@@ -28,19 +27,37 @@ namespace ProjectPlannerWeb
                 //}
                 //not needed but cool feature
             }
+
+            //if not logged then go to start page
             if (Session["login"] == null)
                 Response.Redirect("WebForm1.aspx");
 
+            //displaying current username
             string currentUsername = Session["Login"] as string;
             LoggedAs.Text = "Login: " + currentUsername;
+
             if (!IsPostBack)
             {
                 GVbind();
             }
+
+            //Getting Roles from Database, usefull while adding new users
             if (GetRoleFromDatabase(currentUsername) == "3")
             {
                 AdminPanel.Visible = true;
             }
+
+            //Calendar 
+            Calendar1.Caption = "Calender";
+            Calendar1.FirstDayOfWeek = FirstDayOfWeek.Monday;
+            Calendar1.NextPrevFormat = NextPrevFormat.ShortMonth;
+            Calendar1.TitleFormat = TitleFormat.Month;
+            Calendar1.ShowGridLines = true;
+            Calendar1.DayStyle.Height = new Unit(50);
+            Calendar1.DayStyle.Width = new Unit(150);
+            Calendar1.DayStyle.HorizontalAlign = HorizontalAlign.Center;
+            Calendar1.DayStyle.VerticalAlign = VerticalAlign.Middle;
+            Calendar1.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
 
         }
         private string GetRoleFromDatabase(string Login) //to get Role , 3= Admin, 2=Moderator, 1=User
@@ -67,13 +84,6 @@ namespace ProjectPlannerWeb
             Session.Abandon();
             Response.Redirect("WebForm1.aspx");
             //logout
-        }
-        void clear() //clear textboxes
-        {
-            LoginAdmin.Text =
-            PasswordAdmin.Text =
-            EmailAdmin.Text =
-            DescriptionAdmin.Text = "";
         }
 
         protected void LoginAdmin_TextChanged(object sender, EventArgs e)
@@ -158,20 +168,18 @@ namespace ProjectPlannerWeb
         }
         protected void GridView2_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            //problem with editing to be fixed later
-
             GridViewRow row = GridView2.Rows[e.RowIndex];
-            int userID = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value.ToString());
-        
-            string login = ((TextBox)row.FindControl("Login")).Text;
-            string password = ((TextBox)row.FindControl("Password")).Text;
-            string email = ((TextBox)row.FindControl("Email")).Text;
-            string description = ((TextBox)row.FindControl("Description")).Text;
-
+            int userID = Convert.ToInt32(GridView2.DataKeys[e.RowIndex].Value);
+            string login = ((TextBox)row.FindControl("Login")).Text.Trim();
+            string password = ((TextBox)row.FindControl("Password")).Text.Trim();
+            string email = ((TextBox)row.FindControl("Email")).Text.Trim();
+            string description = ((TextBox)row.FindControl("Description")).Text.Trim();
+            DropDownList ddlRole = (DropDownList)row.FindControl("RoleDropdown");
+            string selectedRole = ddlRole.SelectedValue;
 
             using (SqlConnection sqlCon = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=ProjectPlannerWeb;Integrated Security=True"))
             {
-                string updateQuery = "UPDATE Users SET Login = @Login, Password = @Password, Email = @Email, Description = @Description WHERE UserID = @UserID";
+                string updateQuery = "UPDATE Users SET Login = @Login, Password = @Password, Email = @Email, Description = @Description, Role=@Role WHERE UserID = @UserID";
                 sqlCon.Open();
                 using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                 {
@@ -179,17 +187,23 @@ namespace ProjectPlannerWeb
                     cmd.Parameters.AddWithValue("@Password", password);
                     cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@Description", description);
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+                    cmd.Parameters.AddWithValue("@Role", selectedRole);
+                    int t = cmd.ExecuteNonQuery();
+                    if (t > 0) // notification to user
+                    {
+                        Response.Write("<Script>alert('Data updated')</script");
+                    }
                 }
                 sqlCon.Close();
-                GVbind();
             }
+            GridView2.EditIndex = -1;
+            GVbind();
         }
         protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int rowIndex = e.RowIndex;
             int userID = (int)GridView2.DataKeys[rowIndex].Value;
-
             using (SqlConnection sqlCon = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=ProjectPlannerWeb;Integrated Security=True"))
             {
                 sqlCon.Open();
@@ -206,6 +220,17 @@ namespace ProjectPlannerWeb
         {
             GridView2.EditIndex = -1;
             GVbind();
+        }
+
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            LabelAction.Text = "Date changed to :" + Calendar1.SelectedDate.ToShortDateString();
+        }
+
+        protected void Calendar1_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
+        {
+            LabelAction.Text = "Month changed to :" + e.NewDate.ToShortDateString();
         }
     }
 }
