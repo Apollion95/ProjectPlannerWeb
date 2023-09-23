@@ -67,17 +67,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin.aspx" />
     <Content Include="MainBoard.aspx" />
+    <Content Include="Projects.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GetRoleFromDB.cs" />
     <Compile Include="MainBoard.aspx.cs">
       <DependentUpon>MainBoard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MainBoard.aspx.designer.cs">
       <DependentUpon>MainBoard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Projects.aspx.cs">
+      <DependentUpon>Projects.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Projects.aspx.designer.cs">
+      <DependentUpon>Projects.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebForm1.aspx.cs">

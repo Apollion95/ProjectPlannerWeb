@@ -11,7 +11,7 @@ namespace ProjectPlannerWeb
 {
 
 
-    public partial class MainBoard
+    public partial class Admin
     {
 
         /// <summary>
@@ -69,30 +69,84 @@ namespace ProjectPlannerWeb
         protected global::System.Web.UI.WebControls.Button MoveToAdmin;
 
         /// <summary>
-        /// UserPanel control.
+        /// AdminPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl UserPanel;
+        protected global::System.Web.UI.WebControls.Panel AdminPanel;
 
         /// <summary>
-        /// Calendar1 control.
+        /// LoginAdmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar Calendar1;
+        protected global::System.Web.UI.WebControls.TextBox LoginAdmin;
 
         /// <summary>
-        /// LabelAction control.
+        /// PasswordAdmin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAction;
+        protected global::System.Web.UI.WebControls.TextBox PasswordAdmin;
+
+        /// <summary>
+        /// EmailAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox EmailAdmin;
+
+        /// <summary>
+        /// DescriptionAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox DescriptionAdmin;
+
+        /// <summary>
+        /// RoleList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleList;
+
+        /// <summary>
+        /// Submit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Submit;
+
+        /// <summary>
+        /// Refresh control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Refresh;
+
+        /// <summary>
+        /// GridView2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridView2;
     }
 }
