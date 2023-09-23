@@ -70,6 +70,7 @@
     <Content Include="Admin.aspx" />
     <Content Include="MainBoard.aspx" />
     <Content Include="Projects.aspx" />
+    <Content Include="src\index.js" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
