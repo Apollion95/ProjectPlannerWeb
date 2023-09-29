@@ -5,6 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Project Planner</title>
+    <style>
+    body {
+        background-color: hsl(120, 11.33%, 87.45%);
+    }
+</style>
 </head>
 <body>
     <form id="form1" runat="server">

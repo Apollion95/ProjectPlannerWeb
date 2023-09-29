@@ -7,10 +7,10 @@ using System.Web.UI.WebControls;
 
 namespace ProjectPlannerWeb
 {
-	public partial class Projects : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
+    public partial class Projects : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
             if (Session["login"] == null)
                 Response.Redirect("WebForm1.aspx");
             //displaying current username
@@ -18,6 +18,10 @@ namespace ProjectPlannerWeb
             GetRoleFromDB roleGetter = new GetRoleFromDB();
             string role = roleGetter.GetRoleFromDatabase(currentUsername);
             LoggedAs.Text = "Login: " + currentUsername;
+            if (role == "3")
+            {
+                MoveToAdmin.Visible = true;
+            }
         }
         protected void MoveToProjects_Click(object sender, EventArgs e)
         {

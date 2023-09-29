@@ -5,6 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <style>
+    body {
+        background-color: hsl(120, 11.33%, 87.45%);
+    }
+</style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -32,7 +37,7 @@
                     <br />
                     <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />
                     <asp:Button ID="Refresh" runat="server" Text="Refresh" OnClick="refresh_Click" />
-                    <asp:GridView ID="GridView2" runat="server" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" DataKeyNames="UserID" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" AutoGenerateColumns="False" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowDeleting="GridView2_RowDeleting">
+                    <asp:GridView ID="GridView2" runat="server" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" DataKeyNames="UserID" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" AutoGenerateColumns="False" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowDeleting="GridView2_RowDeleting" EnableViewState="False">
                         <Columns>
                             <asp:BoundField DataField="UserID" HeaderText="User ID" ReadOnly="True" />
                             <asp:TemplateField HeaderText="Login">
