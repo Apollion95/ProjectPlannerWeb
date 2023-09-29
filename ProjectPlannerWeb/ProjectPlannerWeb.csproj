@@ -83,6 +83,7 @@
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
     <Compile Include="GetRoleFromDB.cs" />
+    <Compile Include="GetUserIDFromDB.cs" />
     <Compile Include="MainBoard.aspx.cs">
       <DependentUpon>MainBoard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
