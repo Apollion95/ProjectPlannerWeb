@@ -31,6 +31,7 @@
             <asp:GridView ID="GridView1" runat="server" EnableViewState="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating">
                 <Columns>
                     <asp:BoundField DataField="ProjectID" HeaderText="Project ID" ReadOnly="True" />
+
                     <asp:TemplateField HeaderText="UserID">
                         <EditItemTemplate>
                             <asp:TextBox ID="UserID" runat="server" Text='<%# Bind("UserID") %>'></asp:TextBox>
@@ -41,7 +42,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="ProjectStartDate">
                         <EditItemTemplate>
-                            <asp:TextBox ID="ProjectStartDate" runat="server" Text='<%# Bind("ProjectStartDate") %>'></asp:TextBox>
+                            <asp:TextBox ID="ProjectStartDate" runat="server" Text='<%# Bind("ProjectStart") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
                             <asp:Label ID="ProjectStartDateLabel" runat="server" Text='<%# Bind("ProjectStart", "{0:MM/dd/yyyy}") %>'></asp:Label>
@@ -49,7 +50,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="ProjectEndDate">
                         <EditItemTemplate>
-                            <asp:TextBox ID="ProjectEndDate" runat="server" Text='<%# Bind("ProjectEndDate") %>'></asp:TextBox>
+                            <asp:TextBox ID="ProjectEndDate" runat="server" Text='<%# Bind("ProjectEnd") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
                             <asp:Label ID="ProjectEndDateLabel" runat="server" Text='<%# Eval("ProjectEnd", "{0:MM/dd/yyyy}") %>'></asp:Label>
@@ -67,8 +68,34 @@
                     <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>
+            <asp:Calendar ID="Calendar1" runat="server" Style="float: left; margin-right: 10px;" BackColor="#FFFFCC" BorderColor="#FFCC66"
+                BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
+                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged"
+                OnVisibleMonthChanged="Calendar1_VisibleMonthChanged" Height="200px" Width="300px">
+                <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
+                <SelectorStyle BackColor="#FFCC66" />
+                <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
+                <OtherMonthDayStyle ForeColor="#CC9966" />
+                <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
+                <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
+                <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
+            </asp:Calendar>
+            <asp:Calendar ID="Calendar2" runat="server" Style="float: left" BackColor="#FFFFCC" BorderColor="#FFCC66"
+                BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
+                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar2_SelectionChanged"
+                OnVisibleMonthChanged="Calendar2_VisibleMonthChanged" Height="200px" Width="300px">
+                <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
+                <SelectorStyle BackColor="#FFCC66" />
+                <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
+                <OtherMonthDayStyle ForeColor="#CC9966" />
+                <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
+                <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
+                <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
+            </asp:Calendar>
+            <br />
+            <asp:Label ID="StartLabel" runat="server"></asp:Label><br />
+            <asp:Label ID="EndLabel" runat="server"></asp:Label><br />
         </div>
     </form>
-
 </body>
 </html>

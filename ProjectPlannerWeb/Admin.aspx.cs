@@ -46,23 +46,18 @@ namespace ProjectPlannerWeb
         }
         protected void LoginAdmin_TextChanged(object sender, EventArgs e)
         {
-
         }
         protected void PasswordAdmin_TextChanged(object sender, EventArgs e)
         {
-
         }
         protected void EmailAdmin_TextChanged(object sender, EventArgs e)
         {
-
         }
         protected void DescriptionAdmin_TextChanged(object sender, EventArgs e)
         {
-
         }
         protected void RoleList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
         protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -78,7 +73,6 @@ namespace ProjectPlannerWeb
             string description = ((TextBox)row.FindControl("Description")).Text.Trim();
             DropDownList ddlRole = (DropDownList)row.FindControl("RoleDropdown");
             string selectedRole = ddlRole.SelectedValue;
-
 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
@@ -107,13 +101,6 @@ namespace ProjectPlannerWeb
                 GVbind();
             }
         }
-
-        protected void GridView2_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            GridView2.EditIndex = e.NewEditIndex;
-            GVbind();
-        }
-
         protected void GridView2_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int rowIndex = e.RowIndex;
@@ -134,10 +121,14 @@ namespace ProjectPlannerWeb
                 }
             }
         }
-
         protected void GridView2_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             GridView2.EditIndex = -1;
+            GVbind();
+        }
+        protected void GridView2_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView2.EditIndex = e.NewEditIndex;
             GVbind();
         }
         protected void GVbind()
@@ -158,7 +149,6 @@ namespace ProjectPlannerWeb
                 }
             }
         }
-
         protected void Submit_Click(object sender, EventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
@@ -183,7 +173,6 @@ namespace ProjectPlannerWeb
                 }
             }
         }
-
         protected void refresh_Click(object sender, EventArgs e)
         {
             GVbind();
