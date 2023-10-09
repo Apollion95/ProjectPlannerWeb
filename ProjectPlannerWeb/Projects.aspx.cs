@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -31,7 +32,7 @@ namespace ProjectPlannerWeb
             }
             GVbind();
             //start date
-            Calendar1.Caption = "Calender";
+            Calendar1.Caption = "Project Start Date";
             Calendar1.FirstDayOfWeek = FirstDayOfWeek.Monday;
             Calendar1.NextPrevFormat = NextPrevFormat.ShortMonth;
             Calendar1.TitleFormat = TitleFormat.Month;
@@ -42,7 +43,7 @@ namespace ProjectPlannerWeb
             Calendar1.DayStyle.VerticalAlign = VerticalAlign.Middle;
             Calendar1.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
             //end date
-            Calendar2.Caption = "Calender";
+            Calendar2.Caption = "Project End Date";
             Calendar2.FirstDayOfWeek = FirstDayOfWeek.Monday;
             Calendar2.NextPrevFormat = NextPrevFormat.ShortMonth;
             Calendar2.TitleFormat = TitleFormat.Month;
@@ -72,6 +73,14 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            GridViewRow selectedRow = GridView1.SelectedRow;
+
+            int descriptionCellIndex = 4;
+            string description = selectedRow.Cells[descriptionCellIndex].Text;
+            Label1.Text = "Description: " + description;
+
+
             GVbind();
         }
         protected void GVbind()
@@ -94,46 +103,26 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            //problem with updating
-            //should add data validation
-
-            //GridViewRow row = GridView1.Rows[e.RowIndex];
-            //int projectID = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text);
-            //int userID = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[1].Text);
-            //int userID = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value);
-
+            //add better date updating
             GridViewRow row = GridView1.Rows[e.RowIndex];
             string projectIDCellText = row.Cells[0].Text;
-            string userIDCellText = row.Cells[1].Text;
-            int projectID, userID;
+            int projectID;
             int.TryParse(projectIDCellText, out projectID);
-            int.TryParse(userIDCellText, out userID);
 
-
-            string projectStart = ((TextBox)row.FindControl("ProjectStartDate")).Text.Trim();
-            string projectEnd = ((TextBox)row.FindControl("ProjectEndDate")).Text.Trim();
             string description = ((TextBox)row.FindControl("Description")).Text.Trim();
-            DateTime projectStartDateParase;
-            projectStartDateParase = Calendar1.SelectedDate;
-            DateTime projectEndDateParase;
-            projectEndDateParase = Calendar2.SelectedDate;
-
-            //DateTime.TryParse(projectStart, out projectStartDateParase);
-            //DateTime.TryParse(projectEnd, out projectEndDateParase);
 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
-                    string updateQuery = "UPDATE Users SET ProjectID = @ProjectID, UserID = @UserID, ProjectStart = @ProjectStart, ProjectEnd = @ProjectEnd, Description = @Description WHERE ProjectID = @ProjectID";
+                    string updateQuery = "UPDATE Project SET ProjectID = @ProjectID, ProjectStart = @ProjectStart, ProjectEnd = @ProjectEnd, Description = @Description WHERE ProjectID = @ProjectID";
                     sqlCon.Open();
                     using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                     {
-                        cmd.Parameters.AddWithValue("@ProjectID", projectID); // to do 
-                        cmd.Parameters.AddWithValue("@UserID", userID); //userid 
-                        cmd.Parameters.AddWithValue("@ProjectStartDate", projectStartDateParase);
-                        cmd.Parameters.AddWithValue("@ProjectEndDate", projectEndDateParase);
+                        cmd.Parameters.AddWithValue("@ProjectID", projectID); 
+                        cmd.Parameters.AddWithValue("@ProjectStart", Calendar1.SelectedDate);
+                        cmd.Parameters.AddWithValue("@ProjectEnd", Calendar2.SelectedDate);
                         cmd.Parameters.AddWithValue("@Description", description);
                         int t = cmd.ExecuteNonQuery();
                         if (t > 0) // notification to user
@@ -149,7 +138,7 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int projectIDnum = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text);
+            int projectIDnum = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text); //problem if we remove all projects
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -169,6 +158,31 @@ namespace ProjectPlannerWeb
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
+            GridViewRow selectedRow = GridView1.Rows[e.NewEditIndex];
+            string dateStringCalendar1 = selectedRow.Cells[2].Text;
+            string dateStringCalendar2 = selectedRow.Cells[3].Text;
+            string test1 = selectedRow.Cells[4].Text;
+
+            DateTime selectedDateCalendar1;
+            DateTime selectedDateCalendar2;
+
+            if (DateTime.TryParseExact(dateStringCalendar1, "dd/MMM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out selectedDateCalendar1) &&
+                DateTime.TryParseExact(dateStringCalendar2, "dd/MMM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out selectedDateCalendar2))
+            {
+                Calendar1.SelectedDate = selectedDateCalendar1;
+                Calendar1.VisibleDate = selectedDateCalendar1;
+
+                Calendar2.SelectedDate = selectedDateCalendar2;
+                Calendar2.VisibleDate = selectedDateCalendar2;
+
+                //StartLabel.Text = "Start Date: " + selectedDateCalendar1.ToString("dd MMM yyyy");
+                EndLabel.Text = "End Date: " + selectedDateCalendar2.ToString("dd MMM yyyy");
+            }
+            else
+            {
+                //StartLabel.Text = "Invalid Start Date Format";
+                EndLabel.Text = "Invalid End Date Format";
+            }
             GVbind();
         }
         protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -188,8 +202,16 @@ namespace ProjectPlannerWeb
                     string userIDGet = userIDGetter.GetUserIDFromDatabase(currentUsername);
                     sqlCon.Open();
                     SqlCommand getMaxProjectIDCmd = new SqlCommand("SELECT MAX(ProjectID) FROM Project", sqlCon);
-                    int maxProjectID = (int)getMaxProjectIDCmd.ExecuteScalar();
-                    int newProjectID = maxProjectID + 1;
+                    int newProjectID = 0;
+                    try
+                    {
+                        int maxProjectID = (int)getMaxProjectIDCmd.ExecuteScalar();
+                        newProjectID = maxProjectID + 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        newProjectID = 1;
+                    }
                     SqlCommand cmd = new SqlCommand("INSERT INTO Project (ProjectID, UserID, ProjectStart, ProjectEnd, Description) VALUES (@ProjectID, @UserID, @ProjectStart, @ProjectEnd, @Description)", sqlCon);
                     cmd.Parameters.AddWithValue("@ProjectID", newProjectID); // to do 
                     cmd.Parameters.AddWithValue("@UserID", userIDGet); //userid 
@@ -204,19 +226,15 @@ namespace ProjectPlannerWeb
         }
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
-            StartLabel.Text = "Project Start Date changed to :" + Calendar1.SelectedDate.ToShortDateString();
-        }
-        protected void Calendar1_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
-        {
-            StartLabel.Text = "Project Start Month changed to :" + e.NewDate.ToShortDateString();
+            DateTime selectedDate = Calendar1.SelectedDate;
+            string formattedDate = selectedDate.ToString("dd MMM yyyy");
+            StartLabel.Text = "Project Start Date changed to :" + formattedDate;
         }
         protected void Calendar2_SelectionChanged(object sender, EventArgs e)
         {
-            EndLabel.Text = "Project End Date changed to :" + Calendar2.SelectedDate.ToShortDateString();
-        }
-        protected void Calendar2_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
-        {
-            EndLabel.Text = "Project End Month changed to :" + e.NewDate.ToShortDateString();
+            DateTime selectedDate = Calendar2.SelectedDate;
+            string formattedSelectedDate = selectedDate.ToString("dd MMM yyyy");
+            EndLabel.Text = "Project End Date changed to: " + formattedSelectedDate;
         }
     }
 }

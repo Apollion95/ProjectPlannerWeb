@@ -44,7 +44,7 @@
                             <asp:TextBox ID="ProjectStartDate" runat="server" Text='<%# Bind("ProjectStart") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="ProjectStartDateLabel" runat="server" Text='<%# Bind("ProjectStart", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                            <asp:Label ID="ProjectStartDateLabel" runat="server" Text='<%# Bind("ProjectStart", "{0:dd/MMM/yyyy}") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="ProjectEndDate">
@@ -52,7 +52,7 @@
                             <asp:TextBox ID="ProjectEndDate" runat="server" Text='<%# Bind("ProjectEnd") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
-                            <asp:Label ID="ProjectEndDateLabel" runat="server" Text='<%# Eval("ProjectEnd", "{0:MM/dd/yyyy}") %>'></asp:Label>
+                            <asp:Label ID="ProjectEndDateLabel" runat="server" Text='<%# Eval("ProjectEnd", "{0:dd/MMM/yyyy}") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Description">
@@ -69,8 +69,7 @@
             </asp:GridView>
             <asp:Calendar ID="Calendar1" runat="server" Style="float: left; margin-right: 10px;" BackColor="#FFFFCC" BorderColor="#FFCC66"
                 BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
-                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged"
-                OnVisibleMonthChanged="Calendar1_VisibleMonthChanged" Height="200px" Width="300px">
+                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged" Height="200px" Width="300px">
                 <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
                 <SelectorStyle BackColor="#FFCC66" />
                 <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
@@ -81,8 +80,7 @@
             </asp:Calendar>
             <asp:Calendar ID="Calendar2" runat="server" Style="float: left" BackColor="#FFFFCC" BorderColor="#FFCC66"
                 BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
-                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar2_SelectionChanged"
-                OnVisibleMonthChanged="Calendar2_VisibleMonthChanged" Height="200px" Width="300px">
+                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar2_SelectionChanged" Height="200px" Width="300px">
                 <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
                 <SelectorStyle BackColor="#FFCC66" />
                 <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
@@ -94,6 +92,7 @@
             <br />
             <asp:Label ID="StartLabel" runat="server"></asp:Label><br />
             <asp:Label ID="EndLabel" runat="server"></asp:Label><br />
+            <asp:Label ID="Label1" runat="server"></asp:Label><br />
         </div>
     </form>
 </body>
