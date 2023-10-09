@@ -27,7 +27,7 @@
             This is project tab, here you can review, edit, remove and add new project. <br />
             If you want to add new project select select project start date on left calendar and project end date on right calendar. <br />
             Keep in mind to provide project description. Once you are done click button "Submit New Project". Once you click it you will be assigned to project as owner. <br />
-            If you want to edit existing project, click Edit <br />
+            If you want to edit existing project, click Edit. Start and end date for project will be displayed on calendars below. If you want to change date, simply select another day and click button "update" <br />
             <br />
             <asp:TextBox ID="ProposeDescription" runat="server" placeholder="New Project Description" textmode="MultiLine" Height="20px" Width="350px"></asp:TextBox>
             <asp:Button ID="SubmitProjectButton1" runat="server" Text="Submit New Project" OnClick="SubmitProjectButton1_Click" />
@@ -48,26 +48,28 @@
                             <asp:Label ID="DescriptionLabel" runat="server" Text='<%# Eval("Description") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ButtonType="Button" ShowEditButton="True" />
-                    <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
+                    <asp:CommandField ButtonType="Button" ShowEditButton="True" HeaderText="Edit/Update" />
+                    <asp:CommandField ButtonType="Button" ShowDeleteButton="True" HeaderText="Delete" />
                 </Columns>
             </asp:GridView>
-            <asp:Calendar ID="Calendar1" runat="server" Style="float: left; margin-right: 10px;" BackColor="#FFFFCC" BorderColor="#FFCC66"
+            <asp:Calendar ID="Calendar1" runat="server" Style="float: left; margin-right: 10px;"
+                BackColor="#dedede" BorderColor="#4d535c"
                 BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
-                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged" Height="200px" Width="300px">
-                <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
-                <SelectorStyle BackColor="#FFCC66" />
+                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged" Height="200px" Width="300px" OnDayRender="Calendar1_DayRender">
+                <SelectedDayStyle BackColor="#6bff6e" Font-Bold="True" />
+                <SelectorStyle BackColor="#adff8c" />
                 <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
                 <OtherMonthDayStyle ForeColor="#CC9966" />
                 <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
                 <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
                 <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
             </asp:Calendar>
-            <asp:Calendar ID="Calendar2" runat="server" Style="float: left" BackColor="#FFFFCC" BorderColor="#FFCC66"
+            <asp:Calendar ID="Calendar2" runat="server" Style="float: left"
+                BackColor="#dedede" BorderColor="#4d535c"
                 BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
                 ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar2_SelectionChanged" Height="200px" Width="300px">
-                <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
-                <SelectorStyle BackColor="#FFCC66" />
+                <SelectedDayStyle BackColor="#ff1f1f" Font-Bold="True" />
+                <SelectorStyle BackColor="#f52f2f" />
                 <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
                 <OtherMonthDayStyle ForeColor="#CC9966" />
                 <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
@@ -75,8 +77,8 @@
                 <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
             </asp:Calendar>
             <br />
-            <asp:Label ID="StartLabel" runat="server"></asp:Label><br />
-            <asp:Label ID="EndLabel" runat="server"></asp:Label><br />
+            <asp:Label ID="StartLabel" runat="server" Visible="false"></asp:Label><br />
+            <asp:Label ID="EndLabel" runat="server" Visible="false"></asp:Label><br />
         </div>
     </form>
 </body>

@@ -53,6 +53,7 @@ namespace ProjectPlannerWeb
             Calendar2.DayStyle.HorizontalAlign = HorizontalAlign.Center;
             Calendar2.DayStyle.VerticalAlign = VerticalAlign.Middle;
             Calendar2.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
+
         }
         protected void MoveToProjects_Click(object sender, EventArgs e)
         {
@@ -100,17 +101,18 @@ namespace ProjectPlannerWeb
             int projectID;
             int.TryParse(projectIDCellText, out projectID);
             string description = ((TextBox)row.FindControl("Description")).Text.Trim();
-            string projectStartText = row.Cells[2].Text; 
-            string projectEndText = row.Cells[3].Text; 
+            string projectStartText = row.Cells[2].Text;
+            string projectEndText = row.Cells[3].Text;
             DateTime projectStartDate = DateTime.Parse(projectStartText);
             DateTime projectEndDate = DateTime.Parse(projectEndText);
             DateTime dbProjectStartDate;
             DateTime dbProjectEndDate;
-
-            if (Calendar1.SelectedDate!=projectStartDate)
-                dbProjectStartDate = Calendar1.SelectedDate;else dbProjectStartDate = projectStartDate;
-            if (Calendar2.SelectedDate!= projectEndDate)
-                dbProjectEndDate=Calendar2.SelectedDate;else dbProjectEndDate = projectEndDate;
+            if (Calendar1.SelectedDate != projectStartDate)
+                dbProjectStartDate = Calendar1.SelectedDate;
+            else dbProjectStartDate = projectStartDate;
+            if (Calendar2.SelectedDate != projectEndDate)
+                dbProjectEndDate = Calendar2.SelectedDate;
+            else dbProjectEndDate = projectEndDate;
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -120,12 +122,12 @@ namespace ProjectPlannerWeb
                     sqlCon.Open();
                     using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                     {
-                        cmd.Parameters.AddWithValue("@ProjectID", projectID); 
+                        cmd.Parameters.AddWithValue("@ProjectID", projectID);
                         cmd.Parameters.AddWithValue("@ProjectStart", dbProjectStartDate);
                         cmd.Parameters.AddWithValue("@ProjectEnd", dbProjectEndDate);
                         cmd.Parameters.AddWithValue("@Description", description);
                         int t = cmd.ExecuteNonQuery();
-                        if (t > 0) 
+                        if (t > 0)
                         {
                             Response.Write("<Script>alert('Data updated')</script");
                         }
@@ -220,5 +222,12 @@ namespace ProjectPlannerWeb
             string formattedSelectedDate = selectedDate.ToString("dd MMM yyyy");
             EndLabel.Text = "Project End Date changed to: " + formattedSelectedDate;
         }
+
+        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+        {
+            //add better colors for calendar 
+
+        }
     }
 }
+
