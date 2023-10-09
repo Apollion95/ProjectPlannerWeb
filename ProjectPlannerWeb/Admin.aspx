@@ -6,20 +6,20 @@
 <head runat="server">
     <title></title>
     <style>
-    body {
-        background-color: hsl(120, 11.33%, 87.45%);
-    }
-</style>
+        body {
+            background-color: hsl(120, 11.33%, 87.45%);
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <div style="margin-left: 40px; margin-top: 40px; margin-left: 40px">
             <asp:Label ID="LoggedAs" runat="server" Text="Label"></asp:Label>
             <br />
             <asp:Button ID="MoveToWebForm" runat="server" Text="LogOut" OnClick="MoveToWebForm_Click" />
             <asp:Button ID="MoveToProjects" runat="server" Text="Projects" OnClick="MoveToProjects_Click" />
             <asp:Button ID="MoveToMainBoard" runat="server" Text="MainBoard" OnClick="MoveToMainBoard_Click" Width="83px" />
-            <asp:Button ID="MoveToAdmin" runat="server" Text="Admin" OnClick="MoveToAdmin_Click" visible="false"/>
+            <asp:Button ID="MoveToAdmin" runat="server" Text="Admin" OnClick="MoveToAdmin_Click" Visible="false" />
             <asp:Panel runat="server" ID="AdminPanel">
                 <h3>Admin Panel</h3>
                 <br />

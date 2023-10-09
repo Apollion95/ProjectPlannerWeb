@@ -7,3 +7,16 @@
     align-items: center;
     height: 100vh; /* 100% of the viewport height */
 }
+
+.centered-table {
+    margin: 0 auto;
+}
+
+bodycss {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; 
+    padding: 0; 
+}

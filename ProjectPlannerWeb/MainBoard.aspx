@@ -6,37 +6,36 @@
 <head runat="server">
     <title>Project Planner</title>
     <style>
-    body {
-        background-color: hsl(120, 11.33%, 87.45%);
-    }
-</style>
+        body {
+            background-color: hsl(120, 11.33%, 87.45%);
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-               <asp:Label ID="LoggedAs" runat="server" Text="Label"></asp:Label>
+        <div style="margin-left:40px; margin-top:40px">
+            <asp:Label ID="LoggedAs" runat="server" Text="Label"></asp:Label>
             <br />
             <asp:Button ID="MoveToWebForm" runat="server" Text="LogOut" OnClick="MoveToWebForm_Click" />
             <asp:Button ID="MoveToProjects" runat="server" Text="Projects" OnClick="MoveToProjects_Click" />
             <asp:Button ID="MoveToMainBoard" runat="server" Text="MainBoard" OnClick="MoveToMainBoard_Click" Width="83px" />
-            <asp:Button ID="MoveToAdmin" runat="server" Text="Admin" OnClick="MoveToAdmin_Click" visible="false"/>
+            <asp:Button ID="MoveToAdmin" runat="server" Text="Admin" OnClick="MoveToAdmin_Click" Visible="false" />
         </div>
-
-
         <panel runat="server" id="UserPanel" visible="True">
-            <asp:Calendar ID="Calendar1" runat="server" BackColor="#FFFFCC" BorderColor="#FFCC66"
-                BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt"
-                ForeColor="#663399" ShowGridLines="True" OnSelectionChanged="Calendar1_SelectionChanged"
-                OnVisibleMonthChanged="Calendar1_VisibleMonthChanged">
-                <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
-                <SelectorStyle BackColor="#FFCC66" />
-                <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
-                <OtherMonthDayStyle ForeColor="#CC9966" />
-                <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
-                <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
-                <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
-            </asp:Calendar>
-            <asp:Label ID="LabelAction" runat="server"></asp:Label><br />
+            <div style="margin-left:40px; margin-top:40px; margin-left:40px">
+                <h3>Welcome to ProjectPlanner </h3>
+                <br />
+                This tool allows you to easly manage your project timelines using simple calendar view.
+                <br />
+                <b>Projects</b> tab allows you to review current projects, modify them and add new ones. Each project is assigned to user, start and end date are not mandatory fields due to long projects. 
+                <br />
+                You are currently located at <b>MainBoard</b>.
+                <br />
+                <div visible="false">
+                <b>Admin</b> tab is hidden for users and allows you to manage, add, remove and modify existing accounts.
+                </div>
+
+            </div>
         </panel>
     </form>
 </body>

@@ -114,9 +114,12 @@ namespace ProjectPlannerWeb
             string projectEnd = ((TextBox)row.FindControl("ProjectEndDate")).Text.Trim();
             string description = ((TextBox)row.FindControl("Description")).Text.Trim();
             DateTime projectStartDateParase;
+            projectStartDateParase = Calendar1.SelectedDate;
             DateTime projectEndDateParase;
-            DateTime.TryParse(projectStart, out projectStartDateParase);
-            DateTime.TryParse(projectEnd, out projectEndDateParase);
+            projectEndDateParase = Calendar2.SelectedDate;
+
+            //DateTime.TryParse(projectStart, out projectStartDateParase);
+            //DateTime.TryParse(projectEnd, out projectEndDateParase);
 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
@@ -175,7 +178,6 @@ namespace ProjectPlannerWeb
         }
         protected void SubmitProjectButton1_Click(object sender, EventArgs e)
         {
-            //add timeline validation 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -191,8 +193,8 @@ namespace ProjectPlannerWeb
                     SqlCommand cmd = new SqlCommand("INSERT INTO Project (ProjectID, UserID, ProjectStart, ProjectEnd, Description) VALUES (@ProjectID, @UserID, @ProjectStart, @ProjectEnd, @Description)", sqlCon);
                     cmd.Parameters.AddWithValue("@ProjectID", newProjectID); // to do 
                     cmd.Parameters.AddWithValue("@UserID", userIDGet); //userid 
-                    cmd.Parameters.AddWithValue("@ProjectStart", ProposeProjectStartDate.Text);
-                    cmd.Parameters.AddWithValue("@ProjectEnd", ProposeProjectEndDate.Text);
+                    cmd.Parameters.AddWithValue("@ProjectStart", Calendar1.SelectedDate.ToShortDateString());
+                    cmd.Parameters.AddWithValue("@ProjectEnd", Calendar2.SelectedDate.ToShortDateString());
                     cmd.Parameters.AddWithValue("@Description", ProposeDescription.Text);
                     cmd.ExecuteNonQuery();
                     sqlCon.Close();
