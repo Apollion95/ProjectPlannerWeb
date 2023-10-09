@@ -24,37 +24,22 @@
         <p>
         </p>
         <div style="margin-left: 40px; margin-top: 40px; margin-left: 40px">
-            <asp:TextBox ID="ProposeDescription" runat="server" placeholder="New Project Description" textmode="MultiLine" Width="425px" Height="80px"></asp:TextBox>
+            This is project tab, here you can review, edit, remove and add new project. <br />
+            If you want to add new project select select project start date on left calendar and project end date on right calendar. <br />
+            Keep in mind to provide project description. Once you are done click button "Submit New Project". Once you click it you will be assigned to project as owner. <br />
+            If you want to edit existing project, click Edit <br />
+            <br />
+            <asp:TextBox ID="ProposeDescription" runat="server" placeholder="New Project Description" textmode="MultiLine" Height="20px" Width="350px"></asp:TextBox>
             <asp:Button ID="SubmitProjectButton1" runat="server" Text="Submit New Project" OnClick="SubmitProjectButton1_Click" />
         </div>
         <div style="margin-left: 40px; margin-top: 40px; margin-left: 40px">
+           
             <asp:GridView ID="GridView1" runat="server" EnableViewState="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating">
                 <Columns>
                     <asp:BoundField DataField="ProjectID" HeaderText="Project ID" ReadOnly="True" />
-                    <asp:TemplateField HeaderText="UserID">
-                        <EditItemTemplate>
-                            <asp:TextBox ID="UserID" runat="server" Text='<%# Bind("UserID") %>'></asp:TextBox>
-                        </EditItemTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="UserIDLabel" runat="server" Text='<%# Eval("UserID") %>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="ProjectStartDate">
-                        <EditItemTemplate>
-                            <asp:TextBox ID="ProjectStartDate" runat="server" Text='<%# Bind("ProjectStart") %>'></asp:TextBox>
-                        </EditItemTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="ProjectStartDateLabel" runat="server" Text='<%# Bind("ProjectStart", "{0:dd/MMM/yyyy}") %>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="ProjectEndDate">
-                        <EditItemTemplate>
-                            <asp:TextBox ID="ProjectEndDate" runat="server" Text='<%# Bind("ProjectEnd") %>'></asp:TextBox>
-                        </EditItemTemplate>
-                        <ItemTemplate>
-                            <asp:Label ID="ProjectEndDateLabel" runat="server" Text='<%# Eval("ProjectEnd", "{0:dd/MMM/yyyy}") %>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
+                    <asp:BoundField DataField="UserID" HeaderText="User ID" ReadOnly="True" />
+                    <asp:BoundField DataField="ProjectStart" HeaderText="Project Start" ReadOnly="True" DataFormatString="{0:MM/dd/yyyy}" />
+                    <asp:BoundField DataField="ProjectEnd" HeaderText="Project End" ReadOnly="True"  DataFormatString="{0:MM/dd/yyyy}" />
                     <asp:TemplateField HeaderText="Description">
                         <EditItemTemplate>
                             <asp:TextBox ID="Description" runat="server" Text='<%# Bind("Description") %>'></asp:TextBox>
@@ -92,7 +77,6 @@
             <br />
             <asp:Label ID="StartLabel" runat="server"></asp:Label><br />
             <asp:Label ID="EndLabel" runat="server"></asp:Label><br />
-            <asp:Label ID="Label1" runat="server"></asp:Label><br />
         </div>
     </form>
 </body>

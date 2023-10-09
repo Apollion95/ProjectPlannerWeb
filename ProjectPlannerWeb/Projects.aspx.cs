@@ -73,14 +73,6 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            GridViewRow selectedRow = GridView1.SelectedRow;
-
-            int descriptionCellIndex = 4;
-            string description = selectedRow.Cells[descriptionCellIndex].Text;
-            Label1.Text = "Description: " + description;
-
-
             GVbind();
         }
         protected void GVbind()
@@ -103,14 +95,22 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            //add better date updating
             GridViewRow row = GridView1.Rows[e.RowIndex];
             string projectIDCellText = row.Cells[0].Text;
             int projectID;
             int.TryParse(projectIDCellText, out projectID);
-
             string description = ((TextBox)row.FindControl("Description")).Text.Trim();
+            string projectStartText = row.Cells[2].Text; 
+            string projectEndText = row.Cells[3].Text; 
+            DateTime projectStartDate = DateTime.Parse(projectStartText);
+            DateTime projectEndDate = DateTime.Parse(projectEndText);
+            DateTime dbProjectStartDate;
+            DateTime dbProjectEndDate;
 
+            if (Calendar1.SelectedDate!=projectStartDate)
+                dbProjectStartDate = Calendar1.SelectedDate;else dbProjectStartDate = projectStartDate;
+            if (Calendar2.SelectedDate!= projectEndDate)
+                dbProjectEndDate=Calendar2.SelectedDate;else dbProjectEndDate = projectEndDate;
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
@@ -121,11 +121,11 @@ namespace ProjectPlannerWeb
                     using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                     {
                         cmd.Parameters.AddWithValue("@ProjectID", projectID); 
-                        cmd.Parameters.AddWithValue("@ProjectStart", Calendar1.SelectedDate);
-                        cmd.Parameters.AddWithValue("@ProjectEnd", Calendar2.SelectedDate);
+                        cmd.Parameters.AddWithValue("@ProjectStart", dbProjectStartDate);
+                        cmd.Parameters.AddWithValue("@ProjectEnd", dbProjectEndDate);
                         cmd.Parameters.AddWithValue("@Description", description);
                         int t = cmd.ExecuteNonQuery();
-                        if (t > 0) // notification to user
+                        if (t > 0) 
                         {
                             Response.Write("<Script>alert('Data updated')</script");
                         }
@@ -158,31 +158,15 @@ namespace ProjectPlannerWeb
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
-            GridViewRow selectedRow = GridView1.Rows[e.NewEditIndex];
-            string dateStringCalendar1 = selectedRow.Cells[2].Text;
-            string dateStringCalendar2 = selectedRow.Cells[3].Text;
-            string test1 = selectedRow.Cells[4].Text;
-
-            DateTime selectedDateCalendar1;
-            DateTime selectedDateCalendar2;
-
-            if (DateTime.TryParseExact(dateStringCalendar1, "dd/MMM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out selectedDateCalendar1) &&
-                DateTime.TryParseExact(dateStringCalendar2, "dd/MMM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out selectedDateCalendar2))
-            {
-                Calendar1.SelectedDate = selectedDateCalendar1;
-                Calendar1.VisibleDate = selectedDateCalendar1;
-
-                Calendar2.SelectedDate = selectedDateCalendar2;
-                Calendar2.VisibleDate = selectedDateCalendar2;
-
-                //StartLabel.Text = "Start Date: " + selectedDateCalendar1.ToString("dd MMM yyyy");
-                EndLabel.Text = "End Date: " + selectedDateCalendar2.ToString("dd MMM yyyy");
-            }
-            else
-            {
-                //StartLabel.Text = "Invalid Start Date Format";
-                EndLabel.Text = "Invalid End Date Format";
-            }
+            GridViewRow row = GridView1.Rows[e.NewEditIndex];
+            string projectStartText = row.Cells[2].Text;
+            string projectEndText = row.Cells[3].Text;
+            DateTime projectStartDate = DateTime.Parse(projectStartText);
+            DateTime projectEndDate = DateTime.Parse(projectEndText);
+            Calendar1.SelectedDate = projectStartDate;
+            Calendar2.SelectedDate = projectEndDate;
+            StartLabel.Text = projectStartDate.ToString();
+            EndLabel.Text = projectEndDate.ToString();
             GVbind();
         }
         protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
