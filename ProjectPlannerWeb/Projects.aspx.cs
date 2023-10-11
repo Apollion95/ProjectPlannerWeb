@@ -159,7 +159,7 @@ namespace ProjectPlannerWeb
             GetRoleFromDB roleGetter = new GetRoleFromDB();
             string role = roleGetter.GetRoleFromDatabase(currentUsername);
             LoggedAs.Text = "Login: " + currentUsername;
-            if (role == "2" || role=="3")
+            if (role == "2" || role == "3")
             {
                 int projectIDnum = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text); //problem if we remove all projects
                 string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
@@ -205,6 +205,7 @@ namespace ProjectPlannerWeb
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
             if (!string.IsNullOrEmpty(connectionString))
             {
+
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     string currentUsername = Session["Login"] as string;
@@ -222,14 +223,22 @@ namespace ProjectPlannerWeb
                     {
                         newProjectID = 1;
                     }
-                    SqlCommand cmd = new SqlCommand("INSERT INTO Project (ProjectID, UserID, ProjectStart, ProjectEnd, Description) VALUES (@ProjectID, @UserID, @ProjectStart, @ProjectEnd, @Description)", sqlCon);
-                    cmd.Parameters.AddWithValue("@ProjectID", newProjectID); // to do 
-                    cmd.Parameters.AddWithValue("@UserID", userIDGet); //userid 
-                    cmd.Parameters.AddWithValue("@ProjectStart", Calendar1.SelectedDate.ToShortDateString());
-                    cmd.Parameters.AddWithValue("@ProjectEnd", Calendar2.SelectedDate.ToShortDateString());
-                    cmd.Parameters.AddWithValue("@Description", ProposeDescription.Text);
-                    cmd.ExecuteNonQuery();
-                    sqlCon.Close();
+                    GetRoleFromDB roleGetter = new GetRoleFromDB();
+                    string role = roleGetter.GetRoleFromDatabase(currentUsername);
+                    LoggedAs.Text = "Login: " + currentUsername;
+                    if (role == "2" || role == "3")
+                    {
+                        SqlCommand cmd = new SqlCommand("INSERT INTO Project (ProjectID, UserID, ProjectStart, ProjectEnd, Description) VALUES (@ProjectID, @UserID, @ProjectStart, @ProjectEnd, @Description)", sqlCon);
+                        cmd.Parameters.AddWithValue("@ProjectID", newProjectID); // to do 
+                        cmd.Parameters.AddWithValue("@UserID", userIDGet); //userid 
+                        cmd.Parameters.AddWithValue("@ProjectStart", Calendar1.SelectedDate.ToShortDateString());
+                        cmd.Parameters.AddWithValue("@ProjectEnd", Calendar2.SelectedDate.ToShortDateString());
+                        cmd.Parameters.AddWithValue("@Description", ProposeDescription.Text);
+                        cmd.ExecuteNonQuery();
+                        sqlCon.Close();
+                    }
+                    else
+                        Response.Write("<Script>alert('Access Denied')</script");
                     GVbind();
                 }
             }

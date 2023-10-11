@@ -74,7 +74,7 @@ namespace ProjectPlannerWeb
             DropDownList ddlRole = (DropDownList)row.FindControl("RoleDropdown");
             string selectedRole = ddlRole.SelectedValue;
 
-            if (login.Length >= 8) loginCheck = true;
+            if (login.Length >= 5) loginCheck = true;
             if (password.Length >= 8) passwordCheck = true;
 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
@@ -89,7 +89,7 @@ namespace ProjectPlannerWeb
                         using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                         {
                             cmd.Parameters.AddWithValue("@Login", login);
-                            cmd.Parameters.AddWithValue("@Password", login);
+                            cmd.Parameters.AddWithValue("@Password", password);
                             cmd.Parameters.AddWithValue("@Email", email);
                             cmd.Parameters.AddWithValue("@Description", description);
                             cmd.Parameters.AddWithValue("@UserID", userID);
@@ -162,7 +162,7 @@ namespace ProjectPlannerWeb
             bool loginCheck = false;
             bool passwordCheck = false;
 
-            if (LoginAdmin.Text.Length >= 8) loginCheck = true;
+            if (LoginAdmin.Text.Length >= 5) loginCheck = true;
             if (PasswordAdmin.Text.Length >= 8) passwordCheck = true;
 
             string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
