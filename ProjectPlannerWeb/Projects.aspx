@@ -24,22 +24,30 @@
         <p>
         </p>
         <div style="margin-left: 40px; margin-top: 40px; margin-left: 40px">
-            This is project tab, here you can review, edit, remove and add new project. <br />
-            If you want to add new project select select project start date on left calendar and project end date on right calendar. <br />
-            Keep in mind to provide project description. Once you are done click button "Submit New Project". Once you click it you will be assigned to project as owner. <br />
-            If you want to edit existing project, click Edit. Start and end date for project will be displayed on calendars below. If you want to change date, simply select another day and click button "update" <br />
+            This is project tab, here you can review, edit, remove and add new project.
             <br />
-            <asp:TextBox ID="ProposeDescription" runat="server" placeholder="New Project Description" textmode="MultiLine" Height="20px" Width="350px"></asp:TextBox>
+            If you want to add new project select select project start date on left calendar and project end date on right calendar.
+            <br />
+            Keep in mind to provide project description. Once you are done click button <b>"Submit New Project"</b>. Once you click it you will be assigned to project as owner.
+            <br />
+            If you want to edit existing project, click Edit. Start and end date for project will be displayed on calendars below. If you want to change date, simply select another day and click button "update"
+            <br />
+            <br />
+            By default <b>User</b> can only review data below. Only <b>Moderator</b> can edit project data.
+            <br />
+            If you are missing access please contact your system administrator. 
+            <br />
+            <br />
+            <asp:TextBox ID="ProposeDescription" runat="server" placeholder="New Project Description" TextMode="MultiLine" Height="20px" Width="350px"></asp:TextBox>
             <asp:Button ID="SubmitProjectButton1" runat="server" Text="Submit New Project" OnClick="SubmitProjectButton1_Click" />
         </div>
         <div style="margin-left: 40px; margin-top: 40px; margin-left: 40px">
-           
             <asp:GridView ID="GridView1" runat="server" EnableViewState="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating">
                 <Columns>
                     <asp:BoundField DataField="ProjectID" HeaderText="Project ID" ReadOnly="True" />
                     <asp:BoundField DataField="UserID" HeaderText="User ID" ReadOnly="True" />
                     <asp:BoundField DataField="ProjectStart" HeaderText="Project Start" ReadOnly="True" DataFormatString="{0:MM/dd/yyyy}" />
-                    <asp:BoundField DataField="ProjectEnd" HeaderText="Project End" ReadOnly="True"  DataFormatString="{0:MM/dd/yyyy}" />
+                    <asp:BoundField DataField="ProjectEnd" HeaderText="Project End" ReadOnly="True" DataFormatString="{0:MM/dd/yyyy}" />
                     <asp:TemplateField HeaderText="Description">
                         <EditItemTemplate>
                             <asp:TextBox ID="Description" runat="server" Text='<%# Bind("Description") %>'></asp:TextBox>
@@ -79,6 +87,15 @@
             <br />
             <asp:Label ID="StartLabel" runat="server" Visible="false"></asp:Label><br />
             <asp:Label ID="EndLabel" runat="server" Visible="false"></asp:Label><br />
+            <h4>Legend:</h4>
+            <img src="1.PNG" />
+            Current day<br />
+            <img src="2.PNG" />
+            Project start day
+            <br />
+            <img src="3.PNG" />
+            Project end day
+            <br />
         </div>
     </form>
 </body>

@@ -28,6 +28,7 @@ namespace ProjectPlannerWeb
             if (role == "3")
             {
                 MoveToAdmin.Visible = true;
+                AdminDescriptionLabel.Visible= true;
             }
         }
             protected void MoveToProjects_Click(object sender, EventArgs e)

@@ -21,7 +21,13 @@
             <asp:Button ID="MoveToMainBoard" runat="server" Text="MainBoard" OnClick="MoveToMainBoard_Click" Width="83px" />
             <asp:Button ID="MoveToAdmin" runat="server" Text="Admin" OnClick="MoveToAdmin_Click" Visible="false" />
             <asp:Panel runat="server" ID="AdminPanel">
-                <h3>Admin Panel</h3>
+                <h3>Administrator Panel</h3>
+                <div>
+                    Here you can add new user, modif existing or remove account.You can upgrade role of each user using drop down list. <br />
+                    1. Administrator - full access, allows you to modify users and projects<br />
+                    2. Moderator - allows you to modify, create and remove projects, but you cannot manage accounts.<br />
+                    3. User - Read only. Purpose of this account is to view timeline of projects.<br />
+                </div>
                 <br />
                 <div>
                     <%--<asp:DropDownList ID="UserIdDropDown" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged" AutoPostBack="false"></asp:DropDownList>--%>

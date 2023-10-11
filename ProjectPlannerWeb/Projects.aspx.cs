@@ -30,6 +30,10 @@ namespace ProjectPlannerWeb
             {
                 MoveToAdmin.Visible = true;
             }
+
+
+
+
             GVbind();
             //start date
             Calendar1.Caption = "Project Start Date";
@@ -96,66 +100,86 @@ namespace ProjectPlannerWeb
         }
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            GridViewRow row = GridView1.Rows[e.RowIndex];
-            string projectIDCellText = row.Cells[0].Text;
-            int projectID;
-            int.TryParse(projectIDCellText, out projectID);
-            string description = ((TextBox)row.FindControl("Description")).Text.Trim();
-            string projectStartText = row.Cells[2].Text;
-            string projectEndText = row.Cells[3].Text;
-            DateTime projectStartDate = DateTime.Parse(projectStartText);
-            DateTime projectEndDate = DateTime.Parse(projectEndText);
-            DateTime dbProjectStartDate;
-            DateTime dbProjectEndDate;
-            if (Calendar1.SelectedDate != projectStartDate)
-                dbProjectStartDate = Calendar1.SelectedDate;
-            else dbProjectStartDate = projectStartDate;
-            if (Calendar2.SelectedDate != projectEndDate)
-                dbProjectEndDate = Calendar2.SelectedDate;
-            else dbProjectEndDate = projectEndDate;
-            string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
-            if (!string.IsNullOrEmpty(connectionString))
+
+            string currentUsername = Session["Login"] as string;
+            GetRoleFromDB roleGetter = new GetRoleFromDB();
+            string role = roleGetter.GetRoleFromDatabase(currentUsername);
+            LoggedAs.Text = "Login: " + currentUsername;
+            if (role == "2" || role == "3")
             {
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                GridViewRow row = GridView1.Rows[e.RowIndex];
+                string projectIDCellText = row.Cells[0].Text;
+                int projectID;
+                int.TryParse(projectIDCellText, out projectID);
+                string description = ((TextBox)row.FindControl("Description")).Text.Trim();
+                string projectStartText = row.Cells[2].Text;
+                string projectEndText = row.Cells[3].Text;
+                DateTime projectStartDate = DateTime.Parse(projectStartText);
+                DateTime projectEndDate = DateTime.Parse(projectEndText);
+                DateTime dbProjectStartDate;
+                DateTime dbProjectEndDate;
+                if (Calendar1.SelectedDate != projectStartDate)
+                    dbProjectStartDate = Calendar1.SelectedDate;
+                else dbProjectStartDate = projectStartDate;
+                if (Calendar2.SelectedDate != projectEndDate)
+                    dbProjectEndDate = Calendar2.SelectedDate;
+                else dbProjectEndDate = projectEndDate;
+                string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
+                if (!string.IsNullOrEmpty(connectionString))
                 {
-                    string updateQuery = "UPDATE Project SET ProjectID = @ProjectID, ProjectStart = @ProjectStart, ProjectEnd = @ProjectEnd, Description = @Description WHERE ProjectID = @ProjectID";
-                    sqlCon.Open();
-                    using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
+                    using (SqlConnection sqlCon = new SqlConnection(connectionString))
                     {
-                        cmd.Parameters.AddWithValue("@ProjectID", projectID);
-                        cmd.Parameters.AddWithValue("@ProjectStart", dbProjectStartDate);
-                        cmd.Parameters.AddWithValue("@ProjectEnd", dbProjectEndDate);
-                        cmd.Parameters.AddWithValue("@Description", description);
-                        int t = cmd.ExecuteNonQuery();
-                        if (t > 0)
+                        string updateQuery = "UPDATE Project SET ProjectID = @ProjectID, ProjectStart = @ProjectStart, ProjectEnd = @ProjectEnd, Description = @Description WHERE ProjectID = @ProjectID";
+                        sqlCon.Open();
+                        using (SqlCommand cmd = new SqlCommand(updateQuery, sqlCon))
                         {
-                            Response.Write("<Script>alert('Data updated')</script");
+                            cmd.Parameters.AddWithValue("@ProjectID", projectID);
+                            cmd.Parameters.AddWithValue("@ProjectStart", dbProjectStartDate);
+                            cmd.Parameters.AddWithValue("@ProjectEnd", dbProjectEndDate);
+                            cmd.Parameters.AddWithValue("@Description", description);
+                            int t = cmd.ExecuteNonQuery();
+                            if (t > 0)
+                            {
+                                Response.Write("<Script>alert('Data updated')</script");
+                            }
                         }
+                        sqlCon.Close();
                     }
-                    sqlCon.Close();
-                }
-                GridView1.EditIndex = -1;
-                GVbind();
-            }
-        }
-        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            int projectIDnum = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text); //problem if we remove all projects
-            string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
-            if (!string.IsNullOrEmpty(connectionString))
-            {
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-                    sqlCon.Open();
-                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Project WHERE ProjectID = @ProjectID", sqlCon))
-                    {
-                        cmd.Parameters.AddWithValue("@ProjectID", projectIDnum);
-                        cmd.ExecuteNonQuery();
-                    }
-                    sqlCon.Close();
+                    GridView1.EditIndex = -1;
                     GVbind();
                 }
             }
+            else
+                Response.Write("<Script>alert('Access Denied')</script");
+        }
+        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+
+            string currentUsername = Session["Login"] as string;
+            GetRoleFromDB roleGetter = new GetRoleFromDB();
+            string role = roleGetter.GetRoleFromDatabase(currentUsername);
+            LoggedAs.Text = "Login: " + currentUsername;
+            if (role == "2" || role=="3")
+            {
+                int projectIDnum = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[0].Text); //problem if we remove all projects
+                string connectionString = ConfigurationManager.ConnectionStrings["ProjectPlannerWebConnectionString"].ConnectionString;
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                    {
+                        sqlCon.Open();
+                        using (SqlCommand cmd = new SqlCommand("DELETE FROM Project WHERE ProjectID = @ProjectID", sqlCon))
+                        {
+                            cmd.Parameters.AddWithValue("@ProjectID", projectIDnum);
+                            cmd.ExecuteNonQuery();
+                        }
+                        sqlCon.Close();
+                        GVbind();
+                    }
+                }
+            }
+            else
+                Response.Write("<Script>alert('Access Denied')</script");
         }
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
@@ -222,11 +246,9 @@ namespace ProjectPlannerWeb
             string formattedSelectedDate = selectedDate.ToString("dd MMM yyyy");
             EndLabel.Text = "Project End Date changed to: " + formattedSelectedDate;
         }
-
         protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
         {
             //add better colors for calendar 
-
         }
     }
 }
